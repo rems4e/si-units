@@ -253,20 +253,27 @@ namespace Units {
         }
 
         /**
-         * Accède à la valeur numérique stockée par l'instance.
-         * Accessible uniquement aux classes filles.
-         * Par défault, le type de la valeur retourné est ValueType, et donc capable de retourner directement la valeur
-         * de l'instance.
-         * En revanche, si le type de retour est spécifié, une vérification est effectuée pour être sûr que la
-         * conversion
-         * est sans overflow.
-         * Si c'est le cas, on affiche une erreur, et la valeur retournée représente une valeur incohérente.
-         * Ce test n'est pas effectué si la macro UNITS_NO_OVERFLOW_CHECK est définie, mais la valeur retournée sera
-         *bien
-         * sûr toujours incohérente.
-         *
-         * @return la valeur numérique de l'instance.
+         * Returns the product of a physical quantity with another physical quantity.
+         * The return type is coherent (e.g.: speed * time => length).
          */
+        template <int Kg1, int M1, int S1, int Kg2, int M2, int S2>
+        friend constexpr auto operator*(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2) {
+            return Unit<Kg1 + Kg2, M1 + M2, S1 + S2, true>::makeFromValue(t1.value() * t2.value());
+        }
+
+        /**
+         * Returns the division of a physical quantity by another physical quantity.
+         * The return type is coherent (e.g.: time / speed => length).
+         */
+        template <int Kg1, int M1, int S1, int Kg2, int M2, int S2>
+        friend constexpr auto operator/(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2) {
+            return Unit<Kg1 - Kg2, M1 - M2, S1 - S2, true>::makeFromValue(t1.value() / t2.value());
+        }
+
+        template <int Kg1, int M1, int S1>
+        friend constexpr auto operator/(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg1, M1, S1, true> const &t2) -> UnitBase::ValueType {
+            return t1.value() / t2.value();
+        }
 
     protected:
         /**

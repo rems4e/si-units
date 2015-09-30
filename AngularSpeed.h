@@ -12,6 +12,7 @@
 namespace Units {
 
     using AngularSpeed = Unit<0, 0, -1, true>;
+    using Frequency = Unit<0, 0, -1, true>;
 
     /**
      * Class representing a physical quatity in m⁻¹. It happens to be able to represent an angular speed (angle per
@@ -49,11 +50,26 @@ namespace Units {
         }
 
         /**
+         * Returns a new frequency from the value specified in Hertz.
+         */
+        static constexpr Type makeFromHz(long double Hertz) {
+            return Type(Hertz * 2 * M_PI);
+        }
+
+        /**
          * Returns the value of the angular speed in radians per second.
          */
         template <typename Rep = ValueType>
         constexpr Rep toRad_s() const {
             return (*this).value<Rep>();
+        }
+
+        /**
+         * Returns the value of the fraquency in Hertz.
+         */
+        template <typename Rep = ValueType>
+        constexpr Rep toHz_s() const {
+            return (*this / (2 * M_PI)).value<Rep>();
         }
 
         /**
@@ -77,6 +93,17 @@ namespace Units {
     };
 
     namespace UnitsLiterals {
+        /**
+         * Creates an angular speed quantity from a value expressed in multiples of π radians per second : 1_PI_s,
+         * 2_PI_s, 0.5_PI_s…
+         */
+        inline constexpr AngularSpeed operator"" _PI_s(long double val) {
+            return AngularSpeed::makeFromRad_s(val * M_PI);
+        }
+        inline constexpr AngularSpeed operator"" _PI_s(unsigned long long val) {
+            return AngularSpeed::makeFromRad_s(val * M_PI);
+        }
+
         /**
          * Creates an angular speed quantity from a value expressed in radians per second : 1_rad_s, 2_rad_s, 0.5_rad_s…
          */
@@ -106,6 +133,16 @@ namespace Units {
         }
         inline constexpr AngularSpeed operator"" _deg_s(unsigned long long v) {
             return AngularSpeed::makeFromDeg_s(v);
+        }
+
+        /**
+         * Creates a frequency quantity from a value expressed in Hert : 1_Hz, 2_Hz, 0.5_Hz…
+         */
+        inline constexpr Frequency operator"" _Hz(long double f) {
+            return Frequency::makeFromHz(f);
+        }
+        inline constexpr Frequency operator"" _Hz(unsigned long long f) {
+            return Frequency::makeFromHz(f);
         }
     }
 }

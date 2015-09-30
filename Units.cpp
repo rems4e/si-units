@@ -32,7 +32,7 @@ namespace Units {
     }
 
     std::ostream &operator<<(std::ostream &s, AngularSpeed const &v) {
-        return s << v._val << " s⁻¹";
+        return s << (v._val / (2 * M_PI)) << " s⁻¹";
     }
 
     std::ostream &operator<<(std::ostream &stream, Surface const &s) {
