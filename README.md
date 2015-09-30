@@ -6,4 +6,9 @@ It is a typesafe set of classes that behave coherently in regard with the operat
 This lib requires a C++14-compliant compiler.
 
 ## Installation
-This is almost a header-only lib, except for a few iostream-based functionalities. To use the whole library, just include the "Units.h" header into your source code, and add the "Units.cpp" to your build toolchain.
+This is a header-only lib. To use the whole library, just include the "Units.h" header into your 
+source code.
+For a smaller compilation time, the operator<< overloads on iostreams are defined in their own .cpp 
+file. By default, you will need to add the "Units.cpp" to your build toolchain. To benefit from the 
+header-only feature, you just have to #define UNITS_HEADER_ONLY just before #including the "Units.h" 
+header.

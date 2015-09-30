@@ -36,4 +36,8 @@ namespace Units {
     }
 }
 
+#ifdef UNITS_HEADER_ONLY
+#include "Units.cpp"
+#endif
+
 #endif

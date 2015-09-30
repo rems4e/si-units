@@ -7,9 +7,15 @@
 #include "Units.h"
 #include <iostream>
 
+#ifdef UNITS_HEADER_ONLY
+#define UNITS_CONDIIONAL_INLINE inline
+#else
+#define UNITS_CONDIIONAL_INLINE
+#endif
+
 namespace Units {
 
-    std::ostream &operator<<(std::ostream &s, Length const &d) {
+    UNITS_CONDIIONAL_INLINE std::ostream &operator<<(std::ostream &s, Length const &d) {
         if(std::abs(d._val) >= 1)
             s << d._val << " m";
         else if(std::abs(d._val) >= 1e-2)
@@ -20,7 +26,7 @@ namespace Units {
         return s;
     }
 
-    std::ostream &operator<<(std::ostream &s, Speed const &v) {
+    UNITS_CONDIIONAL_INLINE std::ostream &operator<<(std::ostream &s, Speed const &v) {
         if(std::abs(v._val) >= 1)
             s << v._val << " m/s";
         else if(std::abs(v._val) >= 1e-2)
@@ -31,19 +37,19 @@ namespace Units {
         return s;
     }
 
-    std::ostream &operator<<(std::ostream &s, AngularSpeed const &v) {
+    UNITS_CONDIIONAL_INLINE std::ostream &operator<<(std::ostream &s, AngularSpeed const &v) {
         return s << (v._val / (2 * M_PI)) << " s⁻¹";
     }
 
-    std::ostream &operator<<(std::ostream &stream, Surface const &s) {
+    UNITS_CONDIIONAL_INLINE std::ostream &operator<<(std::ostream &stream, Surface const &s) {
         return stream << s._val << " m²";
     }
 
-    std::ostream &operator<<(std::ostream &stream, Mass const &m) {
+    UNITS_CONDIIONAL_INLINE std::ostream &operator<<(std::ostream &stream, Mass const &m) {
         return stream << m._val << " kg";
     }
 
-    std::ostream &operator<<(std::ostream &s, Time const &d) {
+    UNITS_CONDIIONAL_INLINE std::ostream &operator<<(std::ostream &s, Time const &d) {
         if(std::abs(d._val) >= 3600)
             s << d._val / 3600 << " h";
         else if(std::abs(d._val) >= 60)
@@ -60,7 +66,7 @@ namespace Units {
         return s;
     }
 
-    std::ostream &operator<<(std::ostream &s, Angle const &v) {
+    UNITS_CONDIIONAL_INLINE std::ostream &operator<<(std::ostream &s, Angle const &v) {
         return s << v._val;
     }
 }
