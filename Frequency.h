@@ -15,8 +15,8 @@ namespace Units {
     using Frequency = Unit<0, 0, -1, true>;
 
     /**
-     * Class representing a physical quatity in m⁻¹. It happens to be able to represent an angular speed (angle per
-     * second), hence its specialized methods.
+     * Class representing a physical quatity in s⁻¹. It happens to be able to represent an angular speed (angle per
+     * second) and frequency, hence its specialized methods.
      */
     template <>
     class Unit<0, 0, -1, true> : public Unit<0, 0, -1, false> {

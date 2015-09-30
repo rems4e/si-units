@@ -15,7 +15,7 @@
 #include "Time.h"
 #include "Mass.h"
 #include "Speed.h"
-#include "AngularSpeed.h"
+#include "Frequency.h"
 
 namespace Units {
 
