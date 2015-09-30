@@ -68,7 +68,7 @@ namespace Units {
          * Returns the value of the fraquency in Hertz.
          */
         template <typename Rep = ValueType>
-        constexpr Rep toHz_s() const {
+        constexpr Rep toHz() const {
             return (*this / (2 * M_PI)).value<Rep>();
         }
 

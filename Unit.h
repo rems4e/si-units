@@ -50,7 +50,7 @@ namespace Units {
          * @return A physical quantiy wrapping the given numerical value.
          */
         static constexpr DerivedType<Kg, M, S> makeFromValue(ValueType v) {
-            return DerivedType<Kg, M, S>{ v };
+            return DerivedType<Kg, M, S>{v};
         }
 
         /**
@@ -163,6 +163,15 @@ namespace Units {
         constexpr friend std::enable_if_t<std::is_arithmetic<U>::value, DerivedType<Kg, M, S>>
         operator/(DerivedType<Kg, M, S> const &v1, U v2) {
             return makeFromValue(v1._val / v2);
+        }
+
+        /**
+         * Returns a scalar divided by a physical quantity.
+         */
+        template <typename U>
+        constexpr friend std::enable_if_t<std::is_arithmetic<U>::value, DerivedType<-Kg, -M, -S>>
+        operator/(U v1, DerivedType<Kg, M, S> const &v2) {
+            return DerivedType<-Kg, -M, -S>::makeFromValue(v1 / v2.value());
         }
 
         /**
