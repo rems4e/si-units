@@ -16,6 +16,8 @@
 #include <iostream>
 #endif
 
+#include "Math.h"
+
 namespace Units {
 
     class UnitBase {
@@ -137,7 +139,7 @@ namespace Units {
          */
         template <typename U, int Kg1, int M1, int S1>
         constexpr friend std::enable_if_t<!std::is_base_of<UnitBase, U>::value, Unit<Kg1, M1, S1, true>>
-        operator*(Unit<Kg1, M1, S1, true> const &v1, U const &v2);
+            operator*(Unit<Kg1, M1, S1, true> const &v1, U const &v2);
 
 
         /**
@@ -161,7 +163,7 @@ namespace Units {
          */
         template <typename U>
         constexpr friend std::enable_if_t<std::is_arithmetic<U>::value, DerivedType<Kg, M, S>>
-        operator/(DerivedType<Kg, M, S> const &v1, U v2) {
+            operator/(DerivedType<Kg, M, S> const &v1, U v2) {
             return makeFromValue(v1._val / v2);
         }
 
@@ -170,7 +172,7 @@ namespace Units {
          */
         template <typename U>
         constexpr friend std::enable_if_t<std::is_arithmetic<U>::value, DerivedType<-Kg, -M, -S>>
-        operator/(U v1, DerivedType<Kg, M, S> const &v2) {
+            operator/(U v1, DerivedType<Kg, M, S> const &v2) {
             return DerivedType<-Kg, -M, -S>::makeFromValue(v1 / v2.value());
         }
 
@@ -247,18 +249,30 @@ namespace Units {
         }
 
         /**
-         * Retourns the cosine of the quantity.
+         * Returns the cosine of the quantity.
          */
         constexpr friend ValueType cos(DerivedType<Kg, M, S> const &val) {
             using std::cos;
             return cos(val._val * 2 * M_PI);
         }
         /**
-         * Retourns the sine of the quantity.
+         * Returns the cosine of the quantity.
+         */
+        constexpr friend ValueType cos_constexpr(DerivedType<Kg, M, S> const &val) {
+            return cos_constexpr(val._val * 2 * M_PI);
+        }
+        /**
+         * Returns the sine of the quantity.
          */
         constexpr friend ValueType sin(DerivedType<Kg, M, S> const &val) {
             using std::sin;
             return sin(val._val * 2 * M_PI);
+        }
+        /**
+         * Returns the sine of the quantity.
+         */
+        constexpr friend ValueType sin_constexpr(DerivedType<Kg, M, S> const &val) {
+            return sin_constexpr(val._val * 2 * M_PI);
         }
 
         /**
@@ -322,7 +336,7 @@ namespace Units {
 
     template <typename U, int Kg1, int M1, int S1>
     constexpr std::enable_if_t<!std::is_base_of<UnitBase, U>::value, Unit<Kg1, M1, S1, true>>
-    operator*(Unit<Kg1, M1, S1, true> const &v1, U const &v2) {
+        operator*(Unit<Kg1, M1, S1, true> const &v1, U const &v2) {
         return Unit<Kg1, M1, S1, true>::makeFromValue(v1.value() * v2);
     }
 

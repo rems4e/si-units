@@ -40,4 +40,6 @@ namespace Units {
 #include "Units.cpp"
 #endif
 
+#include "UnitsTests.h"
+
 #endif
