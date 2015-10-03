@@ -251,14 +251,14 @@ namespace Units {
          */
         constexpr friend ValueType cos(DerivedType<Kg, M, S> const &val) {
             using std::cos;
-            return cos(val._val);
+            return cos(val._val * 2 * M_PI);
         }
         /**
          * Retourns the sine of the quantity.
          */
         constexpr friend ValueType sin(DerivedType<Kg, M, S> const &val) {
             using std::sin;
-            return sin(val._val);
+            return sin(val._val * 2 * M_PI);
         }
 
         /**

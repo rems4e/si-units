@@ -38,7 +38,7 @@ namespace Units {
     }
 
     UNITS_CONDIIONAL_INLINE std::ostream &operator<<(std::ostream &s, AngularSpeed const &v) {
-        return s << (v._val / (2 * M_PI)) << " s⁻¹";
+        return s << v._val << " s⁻¹";
     }
 
     UNITS_CONDIIONAL_INLINE std::ostream &operator<<(std::ostream &stream, Surface const &s) {

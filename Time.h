@@ -13,6 +13,7 @@
 namespace Units {
 
     using Time = Unit<0, 0, 1, true>;
+    using Duration = Time;
 
     /**
      * Class representing a time/duration quantity.
@@ -53,6 +54,14 @@ namespace Units {
          */
         static constexpr Type makeFromS(long double s) {
             return Type(s);
+        }
+
+        /**
+         * Returns a new time/duration from the specified std::chrono::duration.
+         */
+        template <typename T>
+        static constexpr Type makeFromSystemDelay(T const &delay) {
+            return makeFromNs(std::chrono::duration_cast<std::chrono::nanoseconds>(delay).count());
         }
 
         /**

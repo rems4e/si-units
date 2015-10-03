@@ -32,21 +32,21 @@ namespace Units {
          * Returns a new angle from the value specified in radians.
          */
         static inline constexpr Type makeFromRad(long double rad) {
-            return Type(rad);
+            return Type(rad / (2 * M_PI));
         }
 
         /**
          * Returns a new angle from the value specified in milliradians.
          */
         static inline constexpr Type makeFromMilliRad(long double millirad) {
-            return Type(millirad / 1000);
+            return Type(millirad / 1000 / (2 * M_PI));
         }
 
         /**
          * Returns a new angle from the value specified in degrees.
          */
         static inline constexpr Type makeFromDeg(long double deg) {
-            return Type(deg / 180 * M_PI);
+            return Type(deg / 360);
         }
 
         /**
@@ -54,7 +54,7 @@ namespace Units {
          */
         template <typename Rep = ValueType>
         constexpr Rep toRad() const {
-            return (*this).value<Rep>();
+            return (*this * (2 * M_PI)).value<Rep>();
         }
 
         /**
@@ -62,7 +62,7 @@ namespace Units {
          */
         template <typename Rep = ValueType>
         constexpr Rep toDeg() const {
-            return (*this * 180 / M_PI).value<Rep>();
+            return (*this * 360).value<Rep>();
         }
 
         /**
@@ -70,7 +70,7 @@ namespace Units {
          */
         template <typename Rep = ValueType>
         constexpr Rep toMilliRad() const {
-            return (*this * 1000).value<Rep>();
+            return (*this * 1000 * (2 * M_PI)).value<Rep>();
         }
 
         /**
@@ -92,6 +92,11 @@ namespace Units {
                 mod2Pi += Type::makeFromRad(2 * M_PI);
 
             return mod2Pi;
+        }
+
+        // Allows for conversion from a dimensionless value to its scalar counterpart
+        operator UnitBase::ValueType() const {
+            return this->value();
         }
 
     private:

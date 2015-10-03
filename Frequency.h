@@ -32,28 +32,28 @@ namespace Units {
          * Returns a new angular speed from the value specified in radians per second.
          */
         static constexpr Type makeFromRad_s(long double rad_s) {
-            return Type(rad_s);
+            return Type(rad_s / (2 * M_PI));
         }
 
         /**
          * Returns a new angular speed from the value specified in degrees per second.
          */
         static constexpr Type makeFromDeg_s(long double deg_s) {
-            return Type(deg_s * M_PI / 180);
+            return Type(deg_s / 360);
         }
 
         /**
          * Returns a new angular speed from the value specified in milliradians per second.
          */
         static constexpr Type makeFromMilliRad_s(long double millirad_s) {
-            return Type(millirad_s / 1000);
+            return Type(millirad_s / 1000 / (2 * M_PI));
         }
 
         /**
          * Returns a new frequency from the value specified in Hertz.
          */
         static constexpr Type makeFromHz(long double Hertz) {
-            return Type(Hertz * 2 * M_PI);
+            return Type(Hertz);
         }
 
         /**
@@ -61,15 +61,7 @@ namespace Units {
          */
         template <typename Rep = ValueType>
         constexpr Rep toRad_s() const {
-            return (*this).value<Rep>();
-        }
-
-        /**
-         * Returns the value of the fraquency in Hertz.
-         */
-        template <typename Rep = ValueType>
-        constexpr Rep toHz() const {
-            return (*this / (2 * M_PI)).value<Rep>();
+            return (*this * 2 * M_PI).value<Rep>();
         }
 
         /**
@@ -77,7 +69,7 @@ namespace Units {
          */
         template <typename Rep = ValueType>
         constexpr Rep toMilliRad_s() const {
-            return (*this * 1000).value<Rep>();
+            return (*this * 1000 * 2 * M_PI).value<Rep>();
         }
 
         /**
@@ -85,7 +77,15 @@ namespace Units {
          */
         template <typename Rep = ValueType>
         constexpr Rep toDeg_s() const {
-            return (*this * 180 / M_PI).value<Rep>();
+            return (*this * 360).value<Rep>();
+        }
+
+        /**
+         * Returns the value of the frequency in Hertz.
+         */
+        template <typename Rep = ValueType>
+        constexpr Rep toHz() const {
+            return (*this).value<Rep>();
         }
 
     private:
