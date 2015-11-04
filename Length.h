@@ -12,7 +12,7 @@
 namespace Units {
 
     using Length = Unit<0, 1, 0, true>;
-    using Distance = Unit<0, 1, 0, true>;
+    using Distance = Length;
 
     /**
      * Class representing a length quantity.
