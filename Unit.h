@@ -25,6 +25,9 @@ namespace Units {
         using ValueType = double;
     };
 
+    template <typename T>
+    using is_unit = std::is_base_of<UnitBase, T>;
+
     template <int Kg, int M, int S, bool Specialized>
     class Unit : public UnitBase {};
 
@@ -128,7 +131,7 @@ namespace Units {
          * The parameter is a scalar value.
          */
         template <typename U>
-        constexpr std::enable_if_t<!std::is_base_of<UnitBase, U>::value, DerivedType<Kg, M, S> &> operator*=(U const &val) {
+        constexpr std::enable_if_t<!is_unit<U>::value, DerivedType<Kg, M, S> &> operator*=(U const &val) {
             _val *= val;
             return static_cast<DerivedType<Kg, M, S> &>(*this);
         }
@@ -138,7 +141,7 @@ namespace Units {
          * The 2nd parameter is a scalar value.
          */
         template <typename U, int Kg1, int M1, int S1>
-        constexpr friend std::enable_if_t<!std::is_base_of<UnitBase, U>::value, Unit<Kg1, M1, S1, true>>
+        constexpr friend std::enable_if_t<std::is_scalar<U>::value, Unit<Kg1, M1, S1, true>>
             operator*(Unit<Kg1, M1, S1, true> const &v1, U const &v2);
 
 
@@ -335,7 +338,7 @@ namespace Units {
     };
 
     template <typename U, int Kg1, int M1, int S1>
-    constexpr std::enable_if_t<!std::is_base_of<UnitBase, U>::value, Unit<Kg1, M1, S1, true>>
+    constexpr std::enable_if_t<std::is_scalar<U>::value, Unit<Kg1, M1, S1, true>>
         operator*(Unit<Kg1, M1, S1, true> const &v1, U const &v2) {
         return Unit<Kg1, M1, S1, true>::makeFromValue(v1.value() * v2);
     }
