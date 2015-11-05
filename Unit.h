@@ -283,23 +283,37 @@ namespace Units {
          * The return type is coherent (e.g.: speed * time => length).
          */
         template <int Kg1, int M1, int S1, int Kg2, int M2, int S2>
-        friend constexpr auto operator*(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2) {
+        friend constexpr auto operator*(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2)
+#ifdef __clang__
+        {
             return Unit<Kg1 + Kg2, M1 + M2, S1 + S2, true>::makeFromValue(t1.value() * t2.value());
         }
-
+#else
+            ;
+#endif
         /**
          * Returns the division of a physical quantity by another physical quantity.
          * The return type is coherent (e.g.: time / speed => length).
          */
         template <int Kg1, int M1, int S1, int Kg2, int M2, int S2>
-        friend constexpr auto operator/(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2) {
+        friend constexpr auto operator/(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2)
+#ifdef __clang__
+        {
             return Unit<Kg1 - Kg2, M1 - M2, S1 - S2, true>::makeFromValue(t1.value() / t2.value());
         }
+#else
+            ;
+#endif
 
         template <int Kg1, int M1, int S1>
-        friend constexpr auto operator/(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg1, M1, S1, true> const &t2) -> UnitBase::ValueType {
+        friend constexpr auto operator/(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg1, M1, S1, true> const &t2) -> UnitBase::ValueType
+#ifdef __clang__
+        {
             return t1.value() / t2.value();
         }
+#else
+            ;
+#endif
 
     protected:
         /**
@@ -353,6 +367,23 @@ namespace Units {
         friend class Unit<Kg, M, S, false>;
         using Unit<Kg, M, S, false>::Unit;
     };
+
+#ifndef __clang__
+    template <int Kg1, int M1, int S1, int Kg2, int M2, int S2>
+    constexpr auto operator*(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2) {
+        return Unit<Kg1 + Kg2, M1 + M2, S1 + S2, true>::makeFromValue(t1.value() * t2.value());
+    }
+
+    template <int Kg1, int M1, int S1, int Kg2, int M2, int S2>
+    constexpr auto operator/(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2) {
+        return Unit<Kg1 - Kg2, M1 - M2, S1 - S2, true>::makeFromValue(t1.value() / t2.value());
+    }
+
+    template <int Kg1, int M1, int S1>
+    constexpr auto operator/(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg1, M1, S1, true> const &t2) -> UnitBase::ValueType {
+        return t1.value() / t2.value();
+    }
+#endif
 }
 
 #endif
