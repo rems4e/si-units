@@ -28,6 +28,9 @@ namespace Units {
     template <typename T>
     using is_unit = std::is_base_of<UnitBase, T>;
 
+    template <typename T>
+    constexpr bool is_unit_v = is_unit<T>::value;
+
     template <int Kg, int M, int S, bool Specialized>
     class Unit : public UnitBase {};
 
@@ -131,7 +134,7 @@ namespace Units {
          * The parameter is a scalar value.
          */
         template <typename U>
-        constexpr std::enable_if_t<!is_unit<U>::value, DerivedType<Kg, M, S> &> operator*=(U const &val) {
+        constexpr std::enable_if_t<!is_unit_v<U>, DerivedType<Kg, M, S> &> operator*=(U const &val) {
             _val *= val;
             return static_cast<DerivedType<Kg, M, S> &>(*this);
         }
@@ -284,14 +287,14 @@ namespace Units {
          */
         template <int Kg1, int M1, int S1, int Kg2, int M2, int S2>
         friend constexpr Unit<Kg1 + Kg2, M1 + M2, S1 + S2, true>
-        operator*(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2);
+            operator*(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2);
         /**
          * Returns the division of a physical quantity by another physical quantity.
          * The return type is coherent (e.g.: time / speed => length).
          */
         template <int Kg1, int M1, int S1, int Kg2, int M2, int S2>
         friend constexpr Unit<Kg1 - Kg2, M1 - M2, S1 - S2, true>
-        operator/(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2);
+            operator/(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg2, M2, S2, true> const &t2);
 
         template <int Kg1, int M1, int S1>
         friend constexpr UnitBase::ValueType operator/(Unit<Kg1, M1, S1, true> const &t1, Unit<Kg1, M1, S1, true> const &t2);
@@ -316,7 +319,7 @@ namespace Units {
          * It is to be used by the child classes (e.g. the Length class uses this method for the return value of its
          * toM() method.)
          * It allows for casting the value to any arithmetic type, and optionally printing a warning in case of
-         * overflow, depending if the preprocessort define UNITS_NO_OVERFLOW_CHECK is set or not.
+         * overflow, depending if the preprocessor define UNITS_NO_OVERFLOW_CHECK is set or not.
          */
         template <typename U = ValueType>
         constexpr U value() const {
