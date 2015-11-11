@@ -39,7 +39,7 @@ namespace Units {
      * range ]-∞, +∞[ !).
      */
     template <typename T>
-    constexpr T sin_constexpr(const T x) {
+    constexpr T sin_constexpr(T const x) {
         if(x < 0) {
             return sin_constexpr(M_PI - x);
         }
@@ -51,7 +51,7 @@ namespace Units {
     }
 
     template <typename T>
-    constexpr T cos_constexpr(const T x) {
+    constexpr T cos_constexpr(T const x) {
         return sin_constexpr(M_PI / 2 - x);
     }
 }
