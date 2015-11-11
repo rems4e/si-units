@@ -38,7 +38,7 @@
 #include <iostream>
 #endif
 
-#include "Math.h"
+#include "math.h"
 
 namespace Units {
 
