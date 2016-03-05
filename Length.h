@@ -93,11 +93,11 @@ namespace Units {
         }
 
         /**
-         * Returns the value of the length in metres.
+         * Returns the value of the length in centimetres.
          */
         template <typename Rep = ValueType>
-        constexpr Rep toM() const {
-            return (*this).value<Rep>();
+        constexpr Rep toCm() const {
+            return (*this * 100).value<Rep>();
         }
 
         /**
@@ -108,6 +108,21 @@ namespace Units {
             return (*this * 10).value<Rep>();
         }
 
+        /**
+         * Returns the value of the length in metres.
+         */
+        template <typename Rep = ValueType>
+        constexpr Rep toM() const {
+            return (*this).value<Rep>();
+        }
+
+        /**
+         * Returns the value of the length in kilometres.
+         */
+        template <typename Rep = ValueType>
+        constexpr Rep toKm() const {
+            return (*this / 1000).value<Rep>();
+        }
 
     private:
         using Unit<0, 1, 0, false>::Unit;

@@ -57,6 +57,9 @@ namespace Units {
         static_assert((1_Hz).toHz() == 1, "");
 
         static_assert((1_Hz).toRad_s() == 2 * M_PI, "");
+
+        static_assert((1_km).toM() - 1000 < 1e-15, "");
+        static_assert((1_cm).toMm() - 10 < 1e-15, "");
     }
 }
 
