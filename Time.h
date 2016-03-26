@@ -95,7 +95,16 @@ namespace Units {
         }
 
         /**
-         * Returns the value of the time/duration as a std::chrono::nanoseconds object, for interoperability with the
+         * Returns the value of the time/duration in milliseconds.
+         */
+        template <typename Rep = ValueType>
+        constexpr Rep toMs() const {
+            return (*this * 1000).value<Rep>();
+        }
+
+        /**
+         * Returns the value of the time/duration as a std::chrono::nanoseconds object, for
+         * interoperability with the
          * std durations facilities.
          */
         std::chrono::nanoseconds toSystemDelay() const {
@@ -112,7 +121,8 @@ namespace Units {
 
     namespace UnitsLiterals {
         /**
-         * Creates a time/duration quantity from a value expressed in nanoseconds : 1_ns, 2_ns, 0.5_ns…
+         * Creates a time/duration quantity from a value expressed in nanoseconds : 1_ns, 2_ns,
+         * 0.5_ns…
          */
         inline constexpr Time operator"" _ns(long double duration) {
             return Time::makeFromNs(duration);
@@ -122,7 +132,8 @@ namespace Units {
         }
 
         /**
-         * Creates a time/duration quantity from a value expressed in microseconds : 1_us, 2_us, 0.5_us…
+         * Creates a time/duration quantity from a value expressed in microseconds : 1_us, 2_us,
+         * 0.5_us…
          */
         inline constexpr Time operator"" _us(long double duration) {
             return Time::makeFromUs(duration);
@@ -132,7 +143,8 @@ namespace Units {
         }
 
         /**
-         * Creates a time/duration quantity from a value expressed in milliseconds : 1_ms, 2_ms, 0.5_ms…
+         * Creates a time/duration quantity from a value expressed in milliseconds : 1_ms, 2_ms,
+         * 0.5_ms…
          */
         inline constexpr Time operator"" _ms(long double duration) {
             return Time::makeFromMs(duration);
@@ -152,7 +164,8 @@ namespace Units {
         }
 
         /**
-         * Creates a time/duration quantity from a value expressed in minutes : 1_min, 2_min, 0.5_min…
+         * Creates a time/duration quantity from a value expressed in minutes : 1_min, 2_min,
+         * 0.5_min…
          */
         inline constexpr Time operator"" _min(long double duration) {
             return Time::makeFromS(duration * 60);
